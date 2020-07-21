@@ -34,4 +34,5 @@ public class DZ {
         }
         System.out.println("Массив в коллекции: " + collection);
     }
+    
 }
