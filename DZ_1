@@ -16,7 +16,6 @@ public class DZ {
         arrayToList (arr2);
         arrayToList (arr3);
 
-
     }
     public static void chengeElementsArr(Object[] array, int index1, int index2){
         System.out.println("Исходный массив: " + Arrays.toString(array));
