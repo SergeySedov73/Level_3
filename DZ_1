@@ -1,37 +1,110 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
+public class Main {
+//в 2х вариантах, это 1й
+//    public static void chengeElementsArr(Object[] array, int index1, int index2){
+//        System.out.println("Исходный массив: " + Arrays.toString(array));
+//        Object ch1 = array [index1];
+//        Object ch2 = array [index2];
+//        array [index1] = ch2;
+//        array [index2] = ch1;
+//        System.out.println("Новый массив: " + Arrays.toString(array));
+//    }
+//    public static void arrayToList (Object[] array){
+//        System.out.println("Исходный массив: " + Arrays.toString(array));
+//        ArrayList<Object> collection = new ArrayList<>();
+//        for (int i = 0; i <array.length ; i++) {
+//            collection.add (array[i]);
+//        }
+//        System.out.println("Массив в коллекции: " + collection);
+//    }
+// а это 2й
 
-public class DZ {
-    public static void main(String[] args) {
-        String[] arr1 = {"ноль", "один", "два", "три", "четыре"};
-        Integer[] arr2 = {0, 1, 2, 3, 4};
-        Double [] arr3 = {0.1,0.2,0.3,0.4,0.5};
-
-        chengeElementsArr(arr1, 0, 3);
-        chengeElementsArr(arr2, 0, 3);
-        chengeElementsArr(arr3, 0, 3);
-
-        arrayToList (arr1);
-        arrayToList (arr2);
-        arrayToList (arr3);
-
-
-    }
-    public static void chengeElementsArr(Object[] array, int index1, int index2){
+    public static <T> void chengeElementsArr(T[] array, int index1, int index2){
         System.out.println("Исходный массив: " + Arrays.toString(array));
-        Object ch1 = array [index1];
-        Object ch2 = array [index2];
+        T ch1 = array [index1];
+        T ch2 = array [index2];
         array [index1] = ch2;
         array [index2] = ch1;
         System.out.println("Новый массив: " + Arrays.toString(array));
     }
-    public static void arrayToList (Object[] array){
+    public static <T>void arrayToList (T[] array){
         System.out.println("Исходный массив: " + Arrays.toString(array));
-        ArrayList<Object> collection = new ArrayList<>();
+        ArrayList<T> collection = new ArrayList<>();
         for (int i = 0; i <array.length ; i++) {
             collection.add (array[i]);
         }
         System.out.println("Массив в коллекции: " + collection);
+    }
+}
+//___________________________________________
+//задание про фрукты
+class Box<T extends Fruit> {
+    private ArrayList<T> list;
+
+    public Box() {this.list = new ArrayList<T>();}
+    public Box(T... arr) {
+        list = new ArrayList<T>(Arrays.asList(arr));
+    }
+
+    public float getWeight() {
+        if (list.size() == 0) return 0.0f;
+        return list.get(0).getWeight() * list.size();
+    }
+
+    public void addFruit(T fruit) {
+        list.add(fruit);
+    }
+
+    public void addFruit(T... fruit) {
+        for (int i = 0; i <fruit.length; i++) {
+            list.add(fruit[i]);
+        }
+    }
+
+    public boolean compare(Box another) {
+        return Math.abs(this.getWeight() - another.getWeight()) < 0.00001;
+    }
+
+    public void transfer(Box<? super T> another) {
+        another.list.addAll(this.list);
+        this.list.clear();
+    }
+}
+
+abstract class Fruit {
+    protected float weight;
+
+    public abstract Fruit newInstance();
+
+    public float getWeight() {
+        return weight;
+    }
+
+    public Fruit(float weight) {
+        this.weight = weight;
+    }
+}
+
+class Orange extends Fruit {
+    public Orange() {
+        super(1.5f);
+    }
+
+    @Override
+    public Fruit newInstance() {
+        return new Orange();
+    }
+}
+
+class Apple extends Fruit {
+    public Apple() {
+        super(1.0f);
+    }
+
+    @Override
+    public Fruit newInstance() {
+        return new Apple();
     }
 }
